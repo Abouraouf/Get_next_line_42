@@ -6,19 +6,19 @@
 /*   By: eabourao <eabourao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:20:11 by eabourao          #+#    #+#             */
-/*   Updated: 2024/11/13 21:18:03 by eabourao         ###   ########.fr       */
+/*   Updated: 2024/11/16 13:50:52 by eabourao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char	*ft_buffer_line(char *str, int fd)
+static char	*ft_buffer_line(char *str, int fd)
 {
 	ssize_t	l_buffer;
 	char	*dest;
 	char	*tmp;
 
-	dest = malloc(BUFFER_SIZE + 1);
+	dest = malloc((size_t)BUFFER_SIZE + 1);
 	if (!dest)
 		return (free(str), NULL);
 	l_buffer = 1;
@@ -40,7 +40,7 @@ char	*ft_buffer_line(char *str, int fd)
 	return (str);
 }
 
-char	*ft_line_in_buffer(char *str)
+static char	*ft_line_in_buffer(char *str)
 {
 	int		i;
 	char	*line;
@@ -65,7 +65,7 @@ char	*ft_line_in_buffer(char *str)
 	return (line);
 }
 
-char	*remove_line(char *buffer)
+static char	*remove_line(char *buffer)
 {
 	int		i;
 	int		j;

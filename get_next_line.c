@@ -6,19 +6,19 @@
 /*   By: eabourao <eabourao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 18:21:08 by eabourao          #+#    #+#             */
-/*   Updated: 2024/11/13 22:13:00 by eabourao         ###   ########.fr       */
+/*   Updated: 2024/11/16 13:53:40 by eabourao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_buffer_line(char *str, int fd)
+static char	*ft_buffer_line(char *str, int fd)
 {
 	ssize_t	l_buffer;
 	char	*dest;
 	char	*tmp;
 
-	dest = malloc(BUFFER_SIZE + 1);
+	dest = malloc((size_t)BUFFER_SIZE + 1);
 	if (!dest)
 		return (free(str), NULL);
 	l_buffer = 1;
@@ -40,7 +40,7 @@ char	*ft_buffer_line(char *str, int fd)
 	return (str);
 }
 
-char	*ft_line_in_buffer(char *str)
+static char	*ft_line_in_buffer(char *str)
 {
 	int		i;
 	char	*line;
@@ -65,7 +65,7 @@ char	*ft_line_in_buffer(char *str)
 	return (line);
 }
 
-char	*remove_line(char *buffer)
+static char	*remove_line(char *buffer)
 {
 	int		i;
 	int		j;
@@ -96,11 +96,10 @@ char	*get_next_line(int fd)
 	static char	*str;
 	char		*buff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
+	if (fd > OPEN_MAX || fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
 		return (free(str), str = NULL);
-	if (!ft_strchr(str, '\n'))
-		str = ft_buffer_line(str, fd);
-	if (!str || *str == '\0')
+	str = ft_buffer_line(str, fd);
+	if (!str || *str == 0)
 		return (free(str), str = NULL);
 	buff = ft_line_in_buffer(str);
 	if (!buff)
